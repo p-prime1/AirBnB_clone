@@ -55,6 +55,7 @@ class FileStorage(BaseModel):
             obj_dict = {k: self.classes()[v["__class__"]](**v)
                         for k, v in obj_dict.items()}
             # TODO: should this overwrite or insert?
+            # This implementation currently overwrites it
             FileStorage.__objects = obj_dict
 
     def attributes(self):
