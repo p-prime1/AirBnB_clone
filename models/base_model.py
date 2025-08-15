@@ -1,44 +1,37 @@
-#!/usr/bin/python3
-
-import cmd
-from datetime import datetime
+from types import NoneType
 import uuid
+import datetime
 
-"""Base model in which all other classes inherits from"""
+"""Module contains the base model that defines all commmon attributes"""
 
 
 class BaseModel:
-    """Initializes all the argyments"""
-    def __init__(self, *args, **kwargs):
-        """ Initializes the public instance attributes
-        Args:
-            line (str): The additional arguments passed to the command line
-            id: Assign a unique id
-            created_at: Assigns the current datetime
-            updated_at: Assigns the current dattime
-            """
-        if (kwargs):
-            for key, value in kwargs.items():
-                if key == 'created_at' or key == 'updated_at':
-                    value = datetime.fromisoformat(value)
-                setattr(self, key, value)
-        else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = self.created_at
+    """Basemodel defines all common attributees/methods for other
+    classes"""
 
-    def __str__(self):
-        """Returns an official string rep of the class"""
+    def __init__(self) -> None:
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.datetime.now()
+        self.updated_at = self.created_at
 
-        return f"[{self.__class__.__name__}] ({self.id} {self.__dict__}"
+    def __str__(self) -> str:
+        return f"[{self.__class__.__name__}] ({self.id}) <{self.__dict__}>"
 
-    def save(self):
-        """Updates the current datetime"""
-        self.updated_at = datetime.now()
+    def save(self) -> None:
+        """Updates updated_at with the current time"""
+        self.updated_at = datetime.datetime.now()
 
-    def to_dict(self):
-        """Returns a dictionary"""
-        dict_copy = self.__dict__.copy()
-        dict_copy['created_at'] = self.created_at.isoformat()
-        dict_copy['updated_at'] = self.updated_at.isoformat()
-        return (dict_copy)
+    def to_dict(self) -> dict:
+        """Returns a dictionary containing al key/values of __dict__
+        includeing the class name,
+        and with updated_at and created_at in ISO format"""
+
+        new_dict = {}
+        for key, value in self.__dict__.items():
+            new_dict[key] = value
+
+        new_dict["__class__"] = self.__class__.__name__
+        new_dict["created_at"] = self.created_at.isoformat()
+        new_dict["updated_at"] = self.updated_at.isoformat()
+
+        return new_dict
