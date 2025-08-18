@@ -1,5 +1,6 @@
 import uuid
 import datetime
+from models import storage
 
 """Module contains the base model that defines all commmon attributes"""
 
@@ -23,6 +24,7 @@ class BaseModel:
             self.created_at = datetime.datetime.now()
         if not hasattr(self, "updated_at"):
             self.updated_at = self.created_at
+        storage.new(self)
 
     def __str__(self) -> str:
         return f"[{self.__class__.__name__}] ({self.id}) <{self.__dict__}>"
@@ -30,6 +32,7 @@ class BaseModel:
     def save(self) -> None:
         """Updates updated_at with the current time"""
         self.updated_at = datetime.datetime.now()
+        storage.save()
 
     def to_dict(self) -> dict:
         """Returns a dictionary of instances attributes, wISO format"""
