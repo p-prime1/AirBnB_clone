@@ -73,6 +73,20 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
 
+    def do_all(self, arg):
+        """Prints a string representation of all instances"""
+        args = arg.split()
+        if len(args) >= 1:
+            if args[0] not in classes:
+                print("** class doesn't exist **")
+            else:
+                result = [str(obj) for obj in storage.all().values()]
+                print(result)
+        else:
+            result = [str(obj) for obj in storage.all().values()]
+            print(result)
+
+
     def emptyline(self):
         """Do nothing on an empty line"""
         pass
