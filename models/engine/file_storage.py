@@ -4,7 +4,7 @@ import json
 
 class FileStorage:
     """Class serializes desirializes instance to and from a JSON file"""
-    __file_path="file.json"
+    __file_path = "file.json"
     __objects = {}
 
     def all(self) -> dict:
@@ -24,14 +24,16 @@ class FileStorage:
 
     def reload(self) -> None:
         try:
+            from models.base_model import BaseModel
+            classes = {"BaseModel": BaseModel}
+
             with open(self.__file_path, "r") as f:
-                content = f.read().strip()
+                content = json.load(f)
                 if not content:
                     return
-                data = json.load(f)
-            for key, value in data.items():
+            for key, value in content.items():
                 cls_name = value["__class__"]
-                cls = eval(cls_name)
+                cls = classes.get(cls_name)
                 self.__objects[key] = cls(**value)
 
         except (FileNotFoundError, json.JSONDecodeError):
