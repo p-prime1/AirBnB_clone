@@ -25,7 +25,9 @@ class FileStorage:
     def reload(self) -> None:
         try:
             from models.base_model import BaseModel
-            classes = {"BaseModel": BaseModel}
+            from models.user import User
+            classes = {"BaseModel": BaseModel,
+                       "User": User}
 
             with open(self.__file_path, "r") as f:
                 content = json.load(f)
