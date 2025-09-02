@@ -28,6 +28,16 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) "
 
+    def default(self, arg):
+        if "." not in arg:
+            print(f"Unknown Command: {arg}")
+            return True
+        args = arg.split('.')
+        args[1] = args[1].strip("()")
+        if args[0] in classes:
+            command = f"{args[1]} {args[0]}"
+        return command
+
     def do_quit(self, arg):
         """Quit command to exit the program"""
         return True
