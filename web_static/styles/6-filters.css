@@ -1,3 +1,32 @@
+.popover {
+    display: none;
+    position: absolute;
+    background: white;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    margin-top: 2px;
+    padding: 0;
+    list-style: none;
+    width: 200px;
+    z-index: 10;
+}
+
+.popover li{
+    padding: 10px;
+    cursor: pointer;
+}
+
+.popover li:hover {
+    background: #f0f0f0
+}
+
+.amenities:hover .popover {
+    display: block;
+}
+.locations:hover .popover {
+    display: block;
+}
+
 .filters {
     align-items: center;
     position: relative;
